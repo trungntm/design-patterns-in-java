@@ -1,0 +1,91 @@
+@startuml Factory Method Pattern
+package com.trungntm {
+  ' Product Interface
+  interface Transport {
+    + deliver(): void
+    + startEngine(): void
+    + stopEngine(): void
+  }
+
+  ' Concrete Products
+  class Truck {
+    + deliver(): void
+    + startEngine(): void
+    + stopEngine(): void
+  }
+
+  class Ship {
+    + deliver(): void
+    + startEngine(): void
+    + stopEngine(): void
+  }
+
+  class Plane {
+    + deliver(): void
+    + startEngine(): void
+    + stopEngine(): void
+  }
+
+  ' Creator Abstract Class
+  abstract class Logistics {
+    + {abstract} createTransport(): Transport
+    + planDelivery(): void
+  }
+
+  ' Concrete Creators
+  class RoadLogistics {
+    + createTransport(): Transport
+  }
+
+  class SeaLogistics {
+    + createTransport(): Transport
+  }
+
+  class AirLogistics {
+    + createTransport(): Transport
+  }
+
+  ' Client
+  class Main {
+    + main(args: String[]): void
+    + demonstrateClientCode(logistics: Logistics): void
+  }
+}
+
+' Relationships - Product hierarchy
+Transport <|.. Truck
+Transport <|.. Ship
+Transport <|.. Plane
+
+' Relationships - Creator hierarchy
+Logistics <|-- RoadLogistics
+Logistics <|-- SeaLogistics
+Logistics <|-- AirLogistics
+
+' Factory method relationships (creates)
+RoadLogistics ..> Truck : <<creates>>
+SeaLogistics ..> Ship : <<creates>>
+AirLogistics ..> Plane : <<creates>>
+
+' Usage relationships
+
+Main --> Logistics : <<uses>>
+Logistics ..> Transport : <<uses>>
+
+' Styling
+skinparam class {
+  BackgroundColor<<abstract>> LightBlue
+  BackgroundColor<<interface>> LightGreen
+  BackgroundColor<<concrete>> LightYellow
+}
+
+Transport <<interface>>
+Logistics <<abstract>>
+Truck <<concrete>>
+Ship <<concrete>>
+Plane <<concrete>>
+RoadLogistics <<concrete>>
+SeaLogistics <<concrete>>
+AirLogistics <<concrete>>
+
+@enduml
