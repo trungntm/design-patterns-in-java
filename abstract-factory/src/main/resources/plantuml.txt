@@ -1,0 +1,79 @@
+@startuml AbstractFactory
+
+package com.trungntm {
+
+    interface GUIFactory {
+        +createButton(): Button
+        +createCheckbox(): Checkbox
+    }
+
+    interface Button {
+        +render(): void
+        +onClick(): void
+    }
+
+    interface Checkbox {
+        +render(): void
+        +toggle(): void
+    }
+
+    class WindowsFactory {
+        +createButton(): Button
+        +createCheckbox(): Checkbox
+    }
+
+    class MacFactory {
+        +createButton(): Button
+        +createCheckbox(): Checkbox
+    }
+
+    class WindowsButton {
+        +render(): void
+        +onClick(): void
+    }
+
+    class WindowsCheckbox {
+        +render(): void
+        +toggle(): void
+    }
+
+    class MacButton {
+        +render(): void
+        +onClick(): void
+    }
+
+    class MacCheckbox {
+        +render(): void
+        +toggle(): void
+    }
+
+    class Application {
+        -button: Button
+        -checkbox: Checkbox
+        +Application(factory: GUIFactory)
+        +render(): void
+        +main(args: String[]): void
+    }
+
+    ' Inheritance relationships
+    GUIFactory <|.. WindowsFactory
+    GUIFactory <|.. MacFactory
+    Button <|.. WindowsButton
+    Button <|.. MacButton
+    Checkbox <|.. WindowsCheckbox
+    Checkbox <|.. MacCheckbox
+
+    ' Creation relationships
+    WindowsFactory ..> WindowsButton : <<creates>>
+    WindowsFactory ..> WindowsCheckbox : <<creates>>
+    MacFactory ..> MacButton : <<creates>>
+    MacFactory ..> MacCheckbox : <<creates>>
+
+    ' Usage relationships
+    Application --> GUIFactory : uses
+    Application --> Button : uses
+    Application --> Checkbox : uses
+
+}
+
+@enduml
