@@ -3,16 +3,8 @@ package com.trungntm;
 public class Main {
 
   public static void main(String[] args) {
-    GUIFactory factory;
-    String osName = System.getProperty("os.name").toLowerCase();
-
-    if (osName.contains("windows")) {
-      factory = new WindowsFactory();
-    } else if (osName.contains("mac")) {
-      factory = new MacFactory();
-    } else {
-      throw new UnsupportedOperationException("Unsupported OS");
-    }
+    String osName = OSDetector.detectOS(System.getProperty("os.name").toLowerCase());
+    GUIFactory factory = GUIFactoryResolver.getFactory(osName);
 
     Application app = new Application(factory);
     app.render();

@@ -52,10 +52,19 @@ package com.trungntm {
         -checkbox: Checkbox
         +Application(factory: GUIFactory)
         +render(): void
-        +main(args: String[]): void
+        +onClick(): void
+        +onToggle(): void
     }
 
-    ' Inheritance relationships
+    class GUIFactoryResolver {
+        +{static} getFactory(osName: String): GUIFactory
+    }
+
+    class OSDetector {
+        +{static} detectOS(): String
+    }
+
+    ' Inheritance relationships (Interface implementation)
     GUIFactory <|.. WindowsFactory
     GUIFactory <|.. MacFactory
     Button <|.. WindowsButton
@@ -73,6 +82,7 @@ package com.trungntm {
     Application --> GUIFactory : uses
     Application --> Button : uses
     Application --> Checkbox : uses
+    GUIFactoryResolver ..> GUIFactory : <<creates>>
 
 }
 
