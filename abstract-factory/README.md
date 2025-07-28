@@ -12,6 +12,23 @@ It is often called a **factory of factories**, because it encapsulates a group o
 - **Isolation**: Separates client code from concrete product classes
 - **Extensibility**: New product families can be added without modifying existing code
 
+## Components of Abstract Factory Pattern
+
+### 1. **Abstract Factory**
+Declares the interface for operations that create abstract products.
+
+### 2. **Concrete Factory**
+Implements the operations to create concrete product objects.
+
+### 3. **Abstract Product**
+Declares an interface for a type of product object.
+
+### 4. **Concrete Product**
+Defines a product object to be created by the corresponding concrete factory.
+
+### 5. **Client**
+Uses only interfaces declared by Abstract Factory and Abstract Product classes.
+
 ## Real-World Use Cases
 
 ### 1. **Cross-Platform GUI Applications**
@@ -72,13 +89,95 @@ public interface Checkbox {
 
 #### Concrete Factories
 - `MacFactory`: Creates macOS-specific UI components
+```java
+public class MacFactory implements GUIFactory {
+
+  @Override
+  public Button createButton() {
+    return new MacButton();
+  }
+
+  @Override
+  public Checkbox createCheckbox() {
+    return new MacCheckbox();
+  }
+}
+```
 - `WindowsFactory`: Creates Windows-specific UI components
+```java
+public class WindowsFactory implements GUIFactory {
+
+  @Override
+  public Button createButton() {
+    return new WindowsButton();
+  }
+
+  @Override
+  public Checkbox createCheckbox() {
+    return new WindowsCheckbox();
+  }
+}
+```
 
 #### Concrete Products
 - `MacButton`, `MacCheckbox`: macOS implementations
-- `WindowsButton`, `WindowsCheckbox`: Windows implementations
+```java
+public class MacButton implements Button {
 
-### Usage Example:
+  @Override
+  public void render() {
+    System.out.println("Rendering Mac button");
+  }
+
+  @Override
+  public void onClick() {
+    System.out.println("Mac button clicked");
+  }
+}
+
+public class MacCheckbox implements Checkbox {
+
+  @Override
+  public void render() {
+    System.out.println("Rendering Mac checkbox");
+  }
+
+  @Override
+  public void toggle() {
+    System.out.println("Mac button toggled");
+  }
+}
+```
+- `WindowsButton`, `WindowsCheckbox`: Windows implementations
+```java
+public class WindowsButton implements Button {
+
+  @Override
+  public void render() {
+    System.out.println("Rendering windows button");
+  }
+
+  @Override
+  public void onClick() {
+    System.out.println("Clicked on windows button");
+  }
+}
+
+public class WindowsCheckbox implements Checkbox {
+
+  @Override
+  public void render() {
+    System.out.println("Rendering windows checkbox");
+  }
+
+  @Override
+  public void toggle() {
+    System.out.println("Windows button toggled");
+  }
+}
+```
+
+#### Client:
 ```java
 public class Application {
     private Button button;
@@ -94,18 +193,58 @@ public class Application {
         checkbox.render();
     }
 }
+```
 
-// Client code
-GUIFactory factory;
-String osName = System.getProperty("os.name").toLowerCase();
-if (osName.contains("mac")) {
-    factory = new MacFactory();
-} else {
-    factory = new WindowsFactory();
+#### Example Usage:
+
+##### OS Detector to detect OS name:
+
+```java
+public class OSDetector {
+
+  public static String detectOS(String osName) {
+    if (osName.contains("win")) {
+      return "windows";
+    } else if (osName.contains("mac")) {
+      return "mac";
+    } else {
+      return "Unsupported OS";
+    }
+  }
 }
+```
 
-Application app = new Application(factory);
-app.render();
+##### GUI Factory Detector to get the appropriate factory:
+```java
+public class GUIFactoryDetector {
+
+  public static GUIFactory getFactory(String osName) {
+    switch (osName) {
+      case "mac":
+        return new MacFactory();
+      case "windows":
+        return new WindowsFactory();
+      default:
+        throw new UnsupportedOperationException("Unsupported OS");
+    }
+  }
+}
+```
+
+##### Main class to run the application:
+```java
+public class Main {
+
+  public static void main(String[] args) {
+    String osName = OSDetector.detectOS(System.getProperty("os.name").toLowerCase());
+    GUIFactory factory = GUIFactoryDetector.getFactory(osName);
+
+    Application app = new Application(factory);
+    app.render();
+    app.onClick();
+    app.onToggle();
+  }
+}
 ```
 
 ## UML Diagram
