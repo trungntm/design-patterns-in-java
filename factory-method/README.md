@@ -91,6 +91,23 @@ public abstract class Logistics {
 - `SeaLogistics`: Creates ships for sea delivery
 - `AirLogistics`: Creates planes for air delivery
 
+### Logistics Factory Registry
+
+```java
+// Factory Registry for managing different creators
+public class LogisticsFactory {
+
+  public static Logistics createLogistics(String deliveryType) {
+    return switch (deliveryType) {
+      case "road" -> new RoadLogistics();
+      case "sea" -> new SeaLogistics();
+      case "air" -> new AirLogistics();
+      default -> new RoadLogistics();
+    };
+  }
+}
+```
+
 ### Usage Example:
 ```java
 public class Main {
