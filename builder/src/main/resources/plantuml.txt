@@ -1,0 +1,90 @@
+@startuml builder-pattern
+
+!define LIGHTYELLOW #FFFACD
+!define LIGHTBLUE #E6F3FF
+!define LIGHTGREEN #E6FFE6
+!define LIGHTPINK #FFE6F0
+
+title Builder Pattern - Computer Configuration System
+
+package "com.trungntm" {
+
+    class Computer <<Product>> LIGHTYELLOW {
+        - cpu: String
+        - gpu: String
+        - ram: int
+        - hasSSD: boolean
+        - storage: String
+        - motherboard: String
+        - hasWiFi: boolean
+        --
+        - Computer(builder: ComputerBuilder)
+        + getCpu(): String
+        + getGpu(): String
+        + getRam(): int
+        + hasSSD(): boolean
+        + getStorage(): String
+        + getMotherboard(): String
+        + hasWiFi(): boolean
+        + toString(): String
+    }
+
+    class ComputerBuilder <<Builder>> LIGHTBLUE {
+        - cpu: String
+        - gpu: String
+        - ram: int
+        - hasSSD: boolean
+        - storage: String
+        - motherboard: String
+        - hasWiFi: boolean
+        --
+        + withCpu(cpu: String): ComputerBuilder
+        + withGpu(gpu: String): ComputerBuilder
+        + withRam(ram: int): ComputerBuilder
+        + withSSD(hasSSD: boolean): ComputerBuilder
+        + withStorage(storage: String): ComputerBuilder
+        + withMotherboard(motherboard: String): ComputerBuilder
+        + withWiFi(hasWiFi: boolean): ComputerBuilder
+        + build(): Computer
+    }
+
+    class ComputerDirector <<Director>> LIGHTGREEN {
+        + buildGamingPC(): Computer
+        + buildOfficePC(): Computer
+        + buildServerPC(): Computer
+        + buildBudgetPC(): Computer
+    }
+
+    class BuilderMain <<Client>> LIGHTPINK {
+        + main(args: String[]): void
+    }
+}
+
+' Relationships
+Computer +-- ComputerBuilder : nested class
+ComputerBuilder ..> Computer : creates
+ComputerDirector ..> ComputerBuilder : uses
+ComputerDirector ..> Computer : creates
+BuilderMain ..> ComputerBuilder : uses
+BuilderMain ..> ComputerDirector : uses
+BuilderMain ..> Computer : uses
+
+' Notes
+note top of Computer : "Product: Complex object being constructed.\nImmutable with final fields and no setters."
+
+note top of ComputerBuilder : "Builder: Provides fluent interface for\nstep-by-step object construction\nwith validation logic."
+
+note top of ComputerDirector : "Director: Encapsulates construction\nlogic for specific configurations\n(Gaming, Office, Server, Budget PCs)."
+
+note top of BuilderMain : "Client: Uses builder directly or\nthrough director to create objects."
+
+' Legend
+legend right
+    |Color| Component |
+    |<back:LIGHTYELLOW>   </back>| Product |
+    |<back:LIGHTBLUE>   </back>| Builder |
+    |<back:LIGHTGREEN>   </back>| Director |
+    |<back:LIGHTPINK>   </back>| Client |
+endlegend
+
+@enduml
