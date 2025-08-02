@@ -1,66 +1,72 @@
-@startuml Factory Method Pattern
-package com.trungntm {
-  ' Product Interface
-  interface Transport {
-    + deliver(): void
-    + startEngine(): void
-    + stopEngine(): void
-  }
+@startuml factory-method
 
-  ' Concrete Products
-  class Truck {
-    + deliver(): void
-    + startEngine(): void
-    + stopEngine(): void
-  }
+!define LIGHTBLUE #E6F3FF
+!define LIGHTGREEN #E6FFE6
+!define LIGHTYELLOW #FFFACD
+!define LIGHTPINK #FFE6F0
 
-  class Ship {
-    + deliver(): void
-    + startEngine(): void
-    + stopEngine(): void
-  }
+title Factory Method Pattern - Logistics Delivery System
 
-  class Plane {
-    + deliver(): void
-    + startEngine(): void
-    + stopEngine(): void
-  }
+package "com.trungntm" {
 
-  ' Creator Abstract Class
-  abstract class Logistics {
-    + {abstract} createTransport(): Transport
-    + planDelivery(): void
-  }
+    interface Transport <<Product Interface>> LIGHTGREEN {
+        + deliver(): void
+        + startEngine(): void
+        + stopEngine(): void
+    }
 
-  ' Concrete Creators
-  class RoadLogistics {
-    + createTransport(): Transport
-  }
+    abstract class Logistics <<Creator>> LIGHTBLUE {
+        + {abstract} createTransport(): Transport
+        + planDelivery(): void
+    }
 
-  class SeaLogistics {
-    + createTransport(): Transport
-  }
+    class RoadLogistics <<Concrete Creator>> LIGHTYELLOW {
+        + createTransport(): Transport
+    }
 
-  class AirLogistics {
-    + createTransport(): Transport
-  }
+    class SeaLogistics <<Concrete Creator>> LIGHTYELLOW {
+        + createTransport(): Transport
+    }
 
-  ' Client
-  class Main {
-    + main(args: String[]): void
-    + demonstrateClientCode(logistics: Logistics): void
-  }
+    class AirLogistics <<Concrete Creator>> LIGHTYELLOW {
+        + createTransport(): Transport
+    }
+
+    class Truck <<Concrete Product>> LIGHTGREEN {
+        + deliver(): void
+        + startEngine(): void
+        + stopEngine(): void
+    }
+
+    class Ship <<Concrete Product>> LIGHTGREEN {
+        + deliver(): void
+        + startEngine(): void
+        + stopEngine(): void
+    }
+
+    class Plane <<Concrete Product>> LIGHTGREEN {
+        + deliver(): void
+        + startEngine(): void
+        + stopEngine(): void
+    }
+
+    class LogisticsFactory <<Factory Utility>> LIGHTPINK {
+        + {static} createLogistics(deliveryType: String): Logistics
+    }
+
+    class Main <<Client>> LIGHTPINK {
+        + {static} main(args: String[]): void
+    }
 }
 
-' Relationships - Product hierarchy
-Transport <|.. Truck
-Transport <|.. Ship
-Transport <|.. Plane
-
-' Relationships - Creator hierarchy
+' Inheritance relationships
 Logistics <|-- RoadLogistics
 Logistics <|-- SeaLogistics
 Logistics <|-- AirLogistics
+
+Transport <|.. Truck
+Transport <|.. Ship
+Transport <|.. Plane
 
 ' Factory method relationships (creates)
 RoadLogistics ..> Truck : <<creates>>
@@ -68,24 +74,30 @@ SeaLogistics ..> Ship : <<creates>>
 AirLogistics ..> Plane : <<creates>>
 
 ' Usage relationships
-
+Main --> LogisticsFactory : <<uses>>
+LogisticsFactory ..> Logistics : <<creates>>
+LogisticsFactory ..> RoadLogistics : <<creates>>
+LogisticsFactory ..> SeaLogistics : <<creates>>
+LogisticsFactory ..> AirLogistics : <<creates>>
 Main --> Logistics : <<uses>>
 Logistics ..> Transport : <<uses>>
 
-' Styling
-skinparam class {
-  BackgroundColor<<abstract>> LightBlue
-  BackgroundColor<<interface>> LightGreen
-  BackgroundColor<<concrete>> LightYellow
-}
+' Notes
+note top of Transport : "Product Interface: Defines the\ninterface for objects the factory\nmethod creates."
 
-Transport <<interface>>
-Logistics <<abstract>>
-Truck <<concrete>>
-Ship <<concrete>>
-Plane <<concrete>>
-RoadLogistics <<concrete>>
-SeaLogistics <<concrete>>
-AirLogistics <<concrete>>
+note top of Logistics : "Creator: Declares the factory method\nthat returns new product objects.\nContains business logic that relies\non Product objects."
+
+note right of RoadLogistics : "Concrete Creator:\nOverrides factory method\nto return Truck instance."
+
+note bottom of LogisticsFactory : "Factory Utility: Provides a\nstatic method to create appropriate\nLogistics instance based on type."
+
+' Legend
+legend right
+    |Color| Component Type |
+    |<back:LIGHTGREEN>   </back>| Product (Interface & Concrete) |
+    |<back:LIGHTBLUE>   </back>| Creator (Abstract) |
+    |<back:LIGHTYELLOW>   </back>| Concrete Creator |
+    |<back:LIGHTPINK>   </back>| Client & Utility |
+endlegend
 
 @enduml
