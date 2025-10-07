@@ -13,6 +13,7 @@
     <module>factory-method</module>
     <module>builder</module>
     <module>state</module>
+    <module>registry</module>
   </modules>
 
   <properties>
