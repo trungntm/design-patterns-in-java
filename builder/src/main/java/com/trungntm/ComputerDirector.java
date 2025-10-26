@@ -6,7 +6,7 @@ package com.trungntm;
  * which encapsulates the construction logic for specific product variations.
  */
 public class ComputerDirector {
-
+    
     /**
      * Builds a high-end gaming computer with powerful components.
      * @return A Computer configured for gaming
@@ -22,7 +22,7 @@ public class ComputerDirector {
             .withWiFi(true)
             .build();
     }
-
+    
     /**
      * Builds a budget-friendly office computer for basic productivity tasks.
      * @return A Computer configured for office work
@@ -38,7 +38,7 @@ public class ComputerDirector {
             .withWiFi(true)
             .build();
     }
-
+    
     /**
      * Builds a server computer optimized for high performance and reliability.
      * @return A Computer configured for server use
@@ -53,7 +53,7 @@ public class ComputerDirector {
             .withWiFi(false) // Servers typically use wired connections
             .build();
     }
-
+    
     /**
      * Builds a budget computer with minimal specifications.
      * @return A Computer configured for basic use

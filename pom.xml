@@ -15,6 +15,7 @@
     <module>state</module>
     <module>registry</module>
     <module>callback</module>
+    <module>decorator</module>
   </modules>
 
   <properties>

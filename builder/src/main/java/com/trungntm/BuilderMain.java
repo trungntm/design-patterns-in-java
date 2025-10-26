@@ -31,7 +31,7 @@ public class BuilderMain {
 
     // Example 2: Using director for predefined configurations
     System.out.println("2. Predefined Computer Configurations:");
-
+    
     Computer gamingPC = ComputerDirector.buildGamingPC();
     Computer officePC = ComputerDirector.buildOfficePC();
     Computer serverPC = ComputerDirector.buildServerPC();
@@ -46,7 +46,7 @@ public class BuilderMain {
 
     // Example 3: Demonstrating validation
     System.out.println("3. Validation Examples:");
-
+    
     // This will work - minimal valid configuration
     try {
       Computer minimalPC = new Computer.ComputerBuilder()
@@ -86,7 +86,7 @@ public class BuilderMain {
 
     // Example 4: Demonstrating flexibility
     System.out.println("4. Flexible Configuration:");
-
+    
     Computer flexiblePC = new Computer.ComputerBuilder()
         .withCpu("AMD Ryzen 7 7700X")
         .withMotherboard("MSI B650 Tomahawk")
@@ -95,7 +95,7 @@ public class BuilderMain {
         .withSSD(true) // This will convert HDD to SSD automatically
         .withWiFi(true)
         .build();
-
+    
     System.out.println("Flexible PC (HDD→SSD conversion): " + flexiblePC);
   }
 }

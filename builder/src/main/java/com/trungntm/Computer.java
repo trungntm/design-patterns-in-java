@@ -119,7 +119,7 @@ public class Computer {
       if (motherboard == null || motherboard.trim().isEmpty()) {
         throw new IllegalStateException("Motherboard is required");
       }
-
+      
       return new Computer(this);
     }
   }
