@@ -7,7 +7,7 @@
 
 title Builder Pattern - Computer Configuration System
 
-package "com.trungntm" {
+package "com.trungtmnguyen" {
 
     class Computer <<Product>> LIGHTYELLOW {
         - cpu: String

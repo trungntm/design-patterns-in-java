@@ -1,6 +1,6 @@
 @startuml AbstractFactory
 
-package com.trungntm {
+package com.trungtmnguyen {
 
     interface GUIFactory {
         +createButton(): Button
