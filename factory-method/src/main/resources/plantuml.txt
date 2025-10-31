@@ -7,7 +7,7 @@
 
 title Factory Method Pattern - Logistics Delivery System
 
-package "com.trungntm" {
+package "com.trungtmnguyen" {
 
     interface Transport <<Product Interface>> LIGHTGREEN {
         + deliver(): void

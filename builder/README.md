@@ -170,7 +170,7 @@ public static class ComputerBuilder {
         if (motherboard == null || motherboard.trim().isEmpty()) {
             throw new IllegalStateException("Motherboard is required");
         }
-        
+
         return new Computer(this);
     }
 }
@@ -179,7 +179,7 @@ public static class ComputerBuilder {
 #### Director Class (Optional)
 ```java
 public class ComputerDirector {
-    
+
     public static Computer buildGamingPC() {
         return new Computer.ComputerBuilder()
             .withCpu("Intel i9-13900K")
@@ -191,7 +191,7 @@ public class ComputerDirector {
             .withWiFi(true)
             .build();
     }
-    
+
     public static Computer buildOfficePC() {
         return new Computer.ComputerBuilder()
             .withCpu("Intel i5-13400")
@@ -203,7 +203,7 @@ public class ComputerDirector {
             .withWiFi(true)
             .build();
     }
-    
+
     public static Computer buildServerPC() {
         return new Computer.ComputerBuilder()
             .withCpu("AMD EPYC 7763")
